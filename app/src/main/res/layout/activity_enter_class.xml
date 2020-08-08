@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/login_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EnterClass">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:text="Join a class"
+        android:textColor="#FFFFFF"
+        android:textFontWeight="700"
+        android:textSize="55sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="124dp"
+        android:text="Ask your friends for the class code"
+        android:textColor="#FFFFFF"
+        android:textFontWeight="300"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/enter_class_code_label"
+        android:text="Class Code"
+        android:textColor="#FFFFFF"
+        android:textFontWeight="600"
+        app:layout_constraintBottom_toTopOf="@+id/enter_class_code"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.099"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.96" />
+
+    <EditText
+        android:id="@+id/enter_class_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/auth_input_bg"
+        android:hint="Enter the class code"
+        android:inputType="textEmailAddress"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Button
+        android:id="@+id/join_class_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="JOIN"
+        android:textSize="20sp"
+        android:textFontWeight="700"
+        android:background="@drawable/signin_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enter_class_code" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
