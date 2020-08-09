@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/subjectwise_single_item"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/colorPrimary"
     android:layout_width="match_parent"
@@ -7,6 +8,7 @@
     android:padding="10dp">
 
     <TextView
+        android:id="@+id/subject_name_single_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Subject"
@@ -14,7 +16,7 @@
         android:textFontWeight="600"/>
 
     <ProgressBar
-        android:id="@+id/progressBar2"
+        android:id="@+id/progress_bar_single_item"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_marginLeft="10dp"
@@ -28,6 +30,7 @@
         android:progressTint="@color/colorAccent"/>
 
     <TextView
+        android:id="@+id/progress_single_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

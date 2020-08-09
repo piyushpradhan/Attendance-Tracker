@@ -14,4 +14,8 @@
 
     <string name="home_second">Home Second</string>
     <string name="skipped_classes_rv_label">Classes skipped this semester</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="subject_name">Subject name</string>
 </resources>

@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
             app:destination="@id/nav_home_second" />
+        <action
+            android:id="@+id/action_nav_home_to_addSubject"
+            app:destination="@id/addSubject" />
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
@@ -40,4 +43,16 @@
         android:name="com.example.college.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/addSubject"
+        android:name="com.example.college.ui.home.AddSubject"
+        android:label="fragment_add_subject"
+        tools:layout="@layout/fragment_add_subject" >
+        <action
+            android:id="@+id/action_addSubject_to_nav_home"
+            app:destination="@id/nav_home" />
+        <argument
+            android:name="ind_sub_args"
+            app:argType="com.example.college.database.skipped_classes_subwise.SkippedClassModel" />
+    </fragment>
 </navigation>
