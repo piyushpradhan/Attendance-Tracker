@@ -10,6 +10,8 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="fontFamily">@font/poppins</item>
         <item name="statusBarBackground">#000</item>
+
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,6 +21,11 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
+
+    <style name="MyActionBar.MenuTextStyle"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColor">#000000</item>
+    </style>
 
 </resources>

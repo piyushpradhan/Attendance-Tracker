@@ -16,7 +16,14 @@
             app:destination="@id/nav_home_second" />
         <action
             android:id="@+id/action_nav_home_to_addSubject"
-            app:destination="@id/addSubject" />
+            app:destination="@id/addSubject"
+            app:enterAnim="@anim/slide_left_enter"
+            app:exitAnim="@anim/slide_left_exit" />
+        <action
+            android:id="@+id/action_nav_home_to_addSubject2"
+            app:destination="@id/addSubject"
+            app:enterAnim="@anim/slide_left_enter"
+            app:exitAnim="@anim/slide_left_exit" />
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
@@ -46,11 +53,13 @@
     <fragment
         android:id="@+id/addSubject"
         android:name="com.example.college.ui.home.AddSubject"
-        android:label="fragment_add_subject"
+        android:label="Update Record"
         tools:layout="@layout/fragment_add_subject" >
         <action
             android:id="@+id/action_addSubject_to_nav_home"
-            app:destination="@id/nav_home" />
+            app:destination="@id/nav_home"
+            app:enterAnim="@anim/slide_left_enter"
+            app:exitAnim="@anim/slide_left_exit" />
         <argument
             android:name="ind_sub_args"
             app:argType="com.example.college.database.skipped_classes_subwise.SkippedClassModel" />

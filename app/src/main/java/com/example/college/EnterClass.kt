@@ -53,5 +53,6 @@ class EnterClass : AppCompatActivity() {
         intent.putExtra("uid", userId)
         intent.putExtra("class", classCode)
         startActivity(intent)
+        finish()
     }
 }

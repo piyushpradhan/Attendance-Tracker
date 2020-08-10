@@ -76,6 +76,7 @@ class RegisterActivity : AppCompatActivity() {
                         val intent = Intent(this, EnterClass::class.java)
                         intent.putExtra("uid", it.user!!.uid.toString())
                         startActivity(intent)
+                        finish()
                     }
 
                     .addOnFailureListener {

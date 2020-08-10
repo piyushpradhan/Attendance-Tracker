@@ -66,11 +66,13 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, EnterClass::class.java)
             intent.putExtra("uid", currentUser.uid)
             startActivity(intent)
+            finish()
         } else if(currentUser != null && className != "noclass") {
             val intent = Intent(this, HomePage::class.java)
             intent.putExtra("uid", currentUser.uid)
             intent.putExtra("class", className)
             startActivity(intent)
+            finish()
         }
     }
 

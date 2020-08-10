@@ -25,6 +25,7 @@ class AddSubject : Fragment() {
 
     private lateinit var incrementRecord: FloatingActionButton
     private lateinit var decrementRecord: FloatingActionButton
+    private lateinit var deleteSubject : FloatingActionButton
     private lateinit var subjectName: TextView
     private lateinit var recordView: TextView
 
@@ -43,6 +44,7 @@ class AddSubject : Fragment() {
         decrementRecord = view.findViewById(R.id.decrement_record)
         subjectName = view.findViewById(R.id.subject_name)
         recordView = view.findViewById(R.id.record_int)
+        deleteSubject = view.findViewById(R.id.delete_subject)
 
         subjectName.text = args.indSubArgs.subjectName
         recordView.text = args.indSubArgs.classesSkipped.toString()
@@ -68,6 +70,11 @@ class AddSubject : Fragment() {
         decrementRecord.setOnClickListener {
             mSkippedClassViewModel.addSubject(SkippedClassModel(args.indSubArgs.id, args.indSubArgs.subjectName, --record))
             recordView.text = record.toString()
+        }
+
+        deleteSubject.setOnClickListener {
+            mSkippedClassViewModel.deleteSubject(SkippedClassModel(args.indSubArgs.id, args.indSubArgs.subjectName, args.indSubArgs.classesSkipped))
+            findNavController().navigate(R.id.action_addSubject_to_nav_home)
         }
 
         return view
