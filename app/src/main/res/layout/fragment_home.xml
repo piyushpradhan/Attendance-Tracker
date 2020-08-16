@@ -12,12 +12,13 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="34dp"
         android:text="05"
         android:textFontWeight="700"
         android:textSize="120sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/total_attendance_circular"/>
 
    <LinearLayout
        android:layout_width="wrap_content"
@@ -33,6 +34,7 @@
            android:layout_height="wrap_content"
            android:layout_marginHorizontal="10dp"
            android:text="Aug"
+           android:textFontWeight="200"
            android:textSize="24sp" />
 
        <TextView
@@ -41,6 +43,7 @@
            android:layout_height="wrap_content"
            android:layout_marginHorizontal="10dp"
            android:text="THU"
+           android:textFontWeight="700"
            android:textSize="24sp" />
 
    </LinearLayout>
@@ -49,12 +52,13 @@
         android:id="@+id/skipped_classes_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
         android:text="@string/skipped_classes_rv_label"
-        app:layout_constraintTop_toBottomOf="@+id/date"
+        android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subjectwise"
@@ -81,5 +85,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/skipped_classes_label" />
 
+    <com.github.guilhe.views.CircularProgressView
+        android:id="@+id/total_attendance_circular"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        app:backgroundColor="#6F4A4A4A"
+        app:layout_constraintBottom_toTopOf="@+id/skipped_classes_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/date"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.372"
+        app:progress="0"
+        app:progressBarColor="@color/colorAccent"
+        app:progressBarRounded="true"
+        app:progressBarThickness="15dp" />
+
+    <TextView
+        android:id="@+id/total_attendance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="45"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/total_attendance_circular"
+        app:layout_constraintEnd_toEndOf="@+id/total_attendance_circular"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="@+id/total_attendance_circular"
+        app:layout_constraintTop_toTopOf="@+id/total_attendance_circular"
+        app:layout_constraintVertical_bias="0.534" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

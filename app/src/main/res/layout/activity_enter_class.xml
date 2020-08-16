@@ -64,13 +64,32 @@
         android:id="@+id/join_class_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="JOIN"
-        android:textSize="20sp"
-        android:textFontWeight="700"
         android:background="@drawable/signin_btn"
+        android:text="JOIN"
+        android:textColor="#000000"
+        android:textFontWeight="700"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_class_code" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_class_code"
+        app:layout_constraintVertical_bias="0.341" />
+
+    <Button
+        android:id="@+id/add_class_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/signin_btn"
+        android:text="ADD"
+        android:textColor="#000000"
+        android:textFontWeight="700"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/join_class_btn"
+        app:layout_constraintVertical_bias="0.16" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

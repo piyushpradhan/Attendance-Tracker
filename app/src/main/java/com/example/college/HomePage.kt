@@ -1,29 +1,39 @@
 package com.example.college
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.menu.MenuView
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.college.adapters.SkippedClassesAdapter
+import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.Task
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+import com.mikhaellopez.circularimageview.CircularImageView
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 
 class HomePage : AppCompatActivity() {
 
@@ -33,8 +43,17 @@ class HomePage : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var classCode : String
 
+    private lateinit var navigationView : NavigationView
+    private lateinit var navHeader : View
+    private lateinit var displayName : TextView
+    private lateinit var email : TextView
+    private lateinit var profileImage : CircularImageView
+
+    private lateinit var mStorageRef : StorageReference
+
     val FILE_NAME = "com.example.college"
     val CLASS_CODE = "class"
+    val READ_EXTERNAL_STORAGE_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,21 +64,120 @@ class HomePage : AppCompatActivity() {
         uid = intent.getStringExtra("uid")
         className = intent.getStringExtra("class")
 
+        mStorageRef = FirebaseStorage.getInstance().getReference()
+
+
         sharedPreferences = this.getSharedPreferences(FILE_NAME, 0)
+
+        //setting the profile data
+        //on nav bar header
+        navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navHeader = navigationView.inflateHeaderView(R.layout.nav_header_home_page)
+        displayName = navHeader.findViewById<TextView>(R.id.nav_bar_displayName)
+        email = navHeader.findViewById<TextView>(R.id.nav_bar_email)
+        profileImage = navHeader.findViewById<CircularImageView>(R.id.nav_bar_profile)
+
+        setUserInfoToNavHeader()
+
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_home, R.id.nav_notice, R.id.nav_shared
             ), drawerLayout
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    private fun askForPermissionToReadExternalStorage() : Boolean {
+        val result = this.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+        return result == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestPermissionToReadExternalStorage() {
+        try {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                READ_EXTERNAL_STORAGE_CODE
+            )
+        } catch (e : Exception) {
+            e.printStackTrace()
+            throw e
+        }
+    }
+
+    private fun setUserInfoToNavHeader() {
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(uid)
+            .addSnapshotListener { value, error ->
+                displayName.text = value?.data!!["name"].toString()
+                email.text = value?.data!!["email"].toString()
+                if(value.data!!["profileImage"].toString().isEmpty() || value.data!!["profileImage"] == null) {
+                    Glide.with(this)
+                        .load(R.drawable.profile_image_default)
+                        .into(profileImage)
+                } else {
+                    Glide.with(this)
+                        .load(value.data!!.get("profileImage").toString())
+                        .into(profileImage)
+                }
+            }
+
+        email.text = FirebaseAuth.getInstance().currentUser!!.email.toString()
+
+        profileImage.setOnClickListener {
+            if(askForPermissionToReadExternalStorage()) {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, 10)
+            } else {
+                requestPermissionToReadExternalStorage()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK && requestCode == 10 && data != null) {
+            profileImage.setImageURI(data.data)
+
+            val selectedImageUri = data.data
+            var bmp : Bitmap? = null
+
+            try {
+                bmp = MediaStore.Images.Media.getBitmap(contentResolver, selectedImageUri)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+            val baos : ByteArrayOutputStream = ByteArrayOutputStream()
+            bmp?.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+
+            val sizeInBytes : ByteArray = baos.toByteArray()
+
+            val profileStorageRef : StorageReference = mStorageRef.child(uid)
+
+            profileStorageRef.putBytes(sizeInBytes).addOnSuccessListener {
+                profileStorageRef.downloadUrl.addOnSuccessListener {
+                    val downloadUrl = it.toString()
+                    FirebaseFirestore.getInstance()
+                        .collection("users")
+                        .document(uid)
+                        .update("profileImage", downloadUrl.toString())
+                }
+            }
+
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

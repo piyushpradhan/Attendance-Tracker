@@ -40,15 +40,19 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.college.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_notice"
+        android:name="com.example.college.ui.notice.NoticeFragment"
+        android:label="Notice Board"
+        tools:layout="@layout/fragment_notices" >
+        <action
+            android:id="@+id/action_nav_notice_to_addNewNotice"
+            app:destination="@id/addNewNotice" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_shared"
         android:name="com.example.college.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="Shared"
         tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/addSubject"
@@ -63,5 +67,14 @@
         <argument
             android:name="ind_sub_args"
             app:argType="com.example.college.database.skipped_classes_subwise.SkippedClassModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNewNotice"
+        android:name="com.example.college.AddNewNotice"
+        android:label="Add New Notice"
+        tools:layout="@layout/fragment_add_new_notice" >
+        <action
+            android:id="@+id/action_addNewNotice_to_nav_notice"
+            app:destination="@id/nav_notice" />
     </fragment>
 </navigation>
