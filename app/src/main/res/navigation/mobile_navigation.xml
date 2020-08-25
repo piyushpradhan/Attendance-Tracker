@@ -46,7 +46,14 @@
         tools:layout="@layout/fragment_notices" >
         <action
             android:id="@+id/action_nav_notice_to_addNewNotice"
-            app:destination="@id/addNewNotice" />
+            app:destination="@id/addNewNotice"
+            app:enterAnim="@anim/slide_left_enter"
+            app:exitAnim="@anim/slide_left_exit" />
+        <action
+            android:id="@+id/action_nav_notice_to_noticeDetail"
+            app:destination="@id/noticeDetail"
+            app:enterAnim="@anim/slide_left_enter"
+            app:exitAnim="@anim/slide_left_exit" />
     </fragment>
 
     <fragment
@@ -66,7 +73,7 @@
             app:exitAnim="@anim/slide_left_exit" />
         <argument
             android:name="ind_sub_args"
-            app:argType="com.example.college.database.skipped_classes_subwise.SkippedClassModel" />
+            app:argType="com.example.college.models.SkippedClassModel" />
     </fragment>
     <fragment
         android:id="@+id/addNewNotice"
@@ -75,6 +82,22 @@
         tools:layout="@layout/fragment_add_new_notice" >
         <action
             android:id="@+id/action_addNewNotice_to_nav_notice"
-            app:destination="@id/nav_notice" />
+            app:destination="@id/nav_notice"
+            app:enterAnim="@anim/slide_left_enter"
+            app:exitAnim="@anim/slide_left_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/noticeDetail"
+        android:name="com.example.college.ui.notice.NoticeDetail"
+        android:label="fragment_notice_detail"
+        tools:layout="@layout/fragment_notice_detail" >
+        <action
+            android:id="@+id/action_noticeDetail_to_nav_notice"
+            app:destination="@id/nav_notice"
+            app:enterAnim="@anim/slide_left_enter"
+            app:exitAnim="@anim/slide_left_exit" />
+        <argument
+            android:name="notice_args"
+            app:argType="com.example.college.models.NoticeModel" />
     </fragment>
 </navigation>

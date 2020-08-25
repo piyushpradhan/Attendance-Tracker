@@ -67,6 +67,7 @@ class RegisterActivity : AppCompatActivity() {
                         userData.put("name", nameField.text.toString())
                         userData.put("email", emailField.text.toString())
                         userData.put("class", "noclass")
+                        userData.put("profileImage", "")
                         Toast.makeText(applicationContext, "Hello, ${nameField.text.toString()}!", Toast.LENGTH_SHORT).show()
 
                         firestore.collection("users")

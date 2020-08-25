@@ -11,9 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.college.R
-import com.example.college.database.skipped_classes_subwise.SkippedClassModel
+import com.example.college.models.SkippedClassModel
 import com.example.college.database.skipped_classes_subwise.SkippedClassViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import soup.neumorphism.NeumorphFloatingActionButton
 
 class AddSubject : Fragment() {
 
@@ -53,27 +54,47 @@ class AddSubject : Fragment() {
 
         addSubjectButton.setOnClickListener {
             if(!addSubjectEditTextView.text.isEmpty()) {
-                mSkippedClassViewModel.addSubject(SkippedClassModel(
-                    0,
-                    addSubjectEditTextView.text.toString(),
-                    0
-                ))
+                mSkippedClassViewModel.addSubject(
+                    SkippedClassModel(
+                        0,
+                        addSubjectEditTextView.text.toString(),
+                        0
+                    )
+                )
                 findNavController().navigate(R.id.action_addSubject_to_nav_home)
             }
         }
 
         incrementRecord.setOnClickListener {
-            mSkippedClassViewModel.addSubject(SkippedClassModel(args.indSubArgs.id, args.indSubArgs.subjectName, ++record))
+            mSkippedClassViewModel.addSubject(
+                SkippedClassModel(
+                    args.indSubArgs.id,
+                    args.indSubArgs.subjectName,
+                    ++record
+                )
+            )
             recordView.text = record.toString()
         }
 
         decrementRecord.setOnClickListener {
-            mSkippedClassViewModel.addSubject(SkippedClassModel(args.indSubArgs.id, args.indSubArgs.subjectName, --record))
+            mSkippedClassViewModel.addSubject(
+                SkippedClassModel(
+                    args.indSubArgs.id,
+                    args.indSubArgs.subjectName,
+                    --record
+                )
+            )
             recordView.text = record.toString()
         }
 
         deleteSubject.setOnClickListener {
-            mSkippedClassViewModel.deleteSubject(SkippedClassModel(args.indSubArgs.id, args.indSubArgs.subjectName, args.indSubArgs.classesSkipped))
+            mSkippedClassViewModel.deleteSubject(
+                SkippedClassModel(
+                    args.indSubArgs.id,
+                    args.indSubArgs.subjectName,
+                    args.indSubArgs.classesSkipped
+                )
+            )
             findNavController().navigate(R.id.action_addSubject_to_nav_home)
         }
 

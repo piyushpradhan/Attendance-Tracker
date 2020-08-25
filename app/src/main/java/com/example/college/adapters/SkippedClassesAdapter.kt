@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.college.R
-import com.example.college.database.skipped_classes_subwise.SkippedClassModel
+import com.example.college.models.SkippedClassModel
 import com.example.college.ui.home.HomeFragmentDirections
 import kotlinx.android.synthetic.main.skipped_classes_rv_single_item.view.*
 

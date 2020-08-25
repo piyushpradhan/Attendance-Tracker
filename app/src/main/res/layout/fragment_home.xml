@@ -1,117 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="vertical"
     tools:context=".ui.home.HomeFragment">
 
-
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
-        android:text="05"
-        android:textFontWeight="700"
-        android:textSize="120sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/total_attendance_circular"/>
-
-   <LinearLayout
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintRight_toRightOf="@+id/date"
-       app:layout_constraintLeft_toLeftOf="@+id/date"
-       app:layout_constraintBottom_toBottomOf="@+id/date"
-       android:layout_marginBottom="10dp">
-
-       <TextView
-           android:id="@+id/month"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginHorizontal="10dp"
-           android:text="Aug"
-           android:textFontWeight="200"
-           android:textSize="24sp" />
-
-       <TextView
-           android:id="@+id/day"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginHorizontal="10dp"
-           android:text="THU"
-           android:textFontWeight="700"
-           android:textSize="24sp" />
-
-   </LinearLayout>
-
-    <TextView
-        android:id="@+id/skipped_classes_label"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/skipped_classes_rv_label"
-        android:textSize="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date" />
+        android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/subjectwise"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/skipped_classes_label"
-        app:layout_constraintVertical_bias="0.0" />
+        <soup.neumorphism.NeumorphTextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="38dp"
+            app:neumorph_shadowColorDark="@color/shadowDark"
+            app:neumorph_shadowColorLight="@color/shadowLight"
+            android:text="05"
+            android:textFontWeight="700"
+            android:textSize="120sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/total_attendance_circular"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_subject_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:elevation="10dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="@+id/skipped_classes_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/skipped_classes_label" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="@+id/date"
+            app:layout_constraintLeft_toLeftOf="@+id/date"
+            app:layout_constraintBottom_toBottomOf="@+id/date"
+            android:layout_marginBottom="10dp">
 
-    <com.github.guilhe.views.CircularProgressView
-        android:id="@+id/total_attendance_circular"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        app:backgroundColor="#6F4A4A4A"
-        app:layout_constraintBottom_toTopOf="@+id/skipped_classes_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/date"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.372"
-        app:progress="0"
-        app:progressBarColor="@color/colorAccent"
-        app:progressBarRounded="true"
-        app:progressBarThickness="15dp" />
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="Aug"
+                android:textFontWeight="200"
+                android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/total_attendance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="45"
-        android:textSize="40dp"
-        app:layout_constraintBottom_toBottomOf="@+id/total_attendance_circular"
-        app:layout_constraintEnd_toEndOf="@+id/total_attendance_circular"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="@+id/total_attendance_circular"
-        app:layout_constraintTop_toTopOf="@+id/total_attendance_circular"
-        app:layout_constraintVertical_bias="0.534" />
+            <TextView
+                android:id="@+id/day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="THU"
+                android:textFontWeight="700"
+                android:textSize="24sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/skipped_classes_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/skipped_classes_rv_label"
+            android:textSize="30dp"
+            android:textFontWeight="700"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/subjectwise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/skipped_classes_label"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <soup.neumorphism.NeumorphFloatingActionButton
+            android:id="@+id/add_subject_btn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            app:neumorph_shadowColorLight="@color/shadowLight"
+            app:neumorph_shadowColorDark="@color/shadowDark"
+            style="@style/Widget.Neumorph.FloatingActionButton"
+            android:scaleType="centerInside"
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@android:drawable/ic_input_add"
+            app:layout_constraintBottom_toBottomOf="@+id/skipped_classes_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/skipped_classes_label" />
+
+        <com.github.guilhe.views.CircularProgressView
+            android:id="@+id/total_attendance_circular"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            app:backgroundColor="#6F4A4A4A"
+            app:layout_constraintBottom_toTopOf="@+id/skipped_classes_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/date"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.372"
+            app:progress="0"
+            app:progressBarColor="@color/colorAccent"
+            app:progressBarRounded="true"
+            app:progressBarThickness="15dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/reduce_attendace"
+            app:borderWidth="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:outlineSpotShadowColor="@color/colorAccent"
+            android:src="@drawable/ic_remove_black_24dp"
+            android:backgroundTint="@color/colorPrimary"
+            app:fabCustomSize="35dp"
+            app:layout_constraintBottom_toBottomOf="@+id/total_attendance_circular"
+            app:layout_constraintEnd_toEndOf="@+id/total_attendance_circular"
+            app:layout_constraintHorizontal_bias="0.888"
+            app:layout_constraintStart_toStartOf="@+id/total_attendance_circular"
+            app:layout_constraintTop_toTopOf="@+id/total_attendance_circular"
+            app:layout_constraintVertical_bias="0.155" />
+
+        <TextView
+            android:id="@+id/total_attendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="45"
+            android:textSize="40dp"
+            app:layout_constraintBottom_toBottomOf="@+id/total_attendance_circular"
+            app:layout_constraintEnd_toEndOf="@+id/total_attendance_circular"
+            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintStart_toStartOf="@+id/total_attendance_circular"
+            app:layout_constraintTop_toTopOf="@+id/total_attendance_circular"
+            app:layout_constraintVertical_bias="0.534" />
+
+        <TextView
+            android:id="@+id/class_stats_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Class Stats"
+            android:layout_margin="15dp"
+            android:textSize="30sp"
+            android:textFontWeight="800"
+            app:layout_constraintTop_toBottomOf="@+id/subjectwise"/>
+
+        <soup.neumorphism.NeumorphFloatingActionButton
+            android:id="@+id/add_subject_btn_class"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            app:neumorph_shadowColorLight="@color/shadowLight"
+            app:neumorph_shadowColorDark="@color/shadowDark"
+            style="@style/Widget.Neumorph.FloatingActionButton"
+            android:scaleType="centerInside"
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@android:drawable/ic_input_add"
+            app:layout_constraintBottom_toBottomOf="@+id/class_stats_heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/class_stats_heading"
+            app:layout_constraintVertical_bias="0.468" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/class_stats_heading"
+            app:layout_constraintVertical_bias="0.044" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/class_stats_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lineChart"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>

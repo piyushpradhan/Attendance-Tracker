@@ -1,4 +1,4 @@
-package com.example.college.database.skipped_classes_subwise
+package com.example.college.models
 
 import android.os.Parcelable
 import androidx.room.Entity

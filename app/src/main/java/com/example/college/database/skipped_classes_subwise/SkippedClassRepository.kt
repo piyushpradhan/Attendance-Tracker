@@ -1,6 +1,7 @@
 package com.example.college.database.skipped_classes_subwise
 
 import androidx.lifecycle.LiveData
+import com.example.college.models.SkippedClassModel
 
 class SkippedClassRepository(private val skippedClassesDao: SkippedClassesDao) {
 

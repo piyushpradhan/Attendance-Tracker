@@ -62,7 +62,7 @@ class EnterClass : AppCompatActivity() {
             addSubjectButton.setOnClickListener {
                 val classCode = HashMap<String, String>()
                 classCode.put("classCode", addSubjectName.text.toString())
-                if(!addSubjectName.text.toString().isEmpty()) {
+                if(addSubjectName.text.toString().isNotEmpty()) {
                     FirebaseFirestore.getInstance()
                         .collection("classes")
                         .document(addSubjectName.text.toString())

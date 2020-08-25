@@ -2,6 +2,7 @@ package com.example.college.database.skipped_classes_subwise
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.college.models.SkippedClassModel
 
 @Dao
 abstract interface SkippedClassesDao {

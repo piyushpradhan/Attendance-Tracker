@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/class_stats_single_sub_cl"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <soup.neumorphism.NeumorphCardView
+        android:id="@+id/single_subject_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:background="@color/colorPrimary"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:neumorph_backgroundColor="@color/colorPrimary"
+        app:neumorph_inset="12dp"
+        app:neumorph_insetBottom="12dp"
+        app:neumorph_insetEnd="12dp"
+        app:neumorph_insetStart="12dp"
+        app:neumorph_insetTop="12dp"
+        app:neumorph_shadowColorDark="@color/shadowDark"
+        app:neumorph_shadowColorLight="@color/shadowLight"
+        app:neumorph_shapeAppearance="@style/CustomNeumorphCard"
+        app:neumorph_shapeType="flat">
+
+        <TextView
+            android:id="@+id/subject_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:layout_gravity="center_vertical"
+            android:paddingVertical="10dp"
+            android:maxLines="1"
+            android:text="Mathematics"
+            android:textSize="22sp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/reduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabCustomSize="35dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="110dp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:src="@drawable/ic_remove_black_24dp"/>
+
+        <TextView
+            android:id="@+id/numerical_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="05"
+            android:layout_marginEnd="70dp"
+            android:layout_gravity="center_vertical|end"
+            android:textSize="22sp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/increase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabCustomSize="35dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_add_black_24dp"/>
+
+    </soup.neumorphism.NeumorphCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
