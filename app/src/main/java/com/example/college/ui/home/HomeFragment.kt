@@ -100,7 +100,7 @@ class HomeFragment : Fragment() {
 
         val animator: ValueAnimator =
             ValueAnimator.ofInt(0, 600)
-        animator.setDuration(5000)
+        animator.duration = 5000
         animator.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
             override fun onAnimationUpdate(animation: ValueAnimator) {
                 attendanceVal.text = animation.animatedValue.toString()
@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
                     attendanceVal.text = attendance.toString()
 
                 }
-            attendance += 1;
+            attendance += 1
             attendanceVal.text = attendance.toString()
             attendanceProgressBar.progress = attendance.toFloat()
             editor.putInt("attendance", attendance)
@@ -260,7 +260,7 @@ class HomeFragment : Fragment() {
                     }
                     val classStatsModel = ClassStatsModel(
                         addSubjectName.text.toString(),
-                        Calendar.WEEK_OF_YEAR,
+                        Calendar.getInstance().get(Calendar.WEEK_OF_YEAR),
                         weekAttendance
                     )
 
@@ -290,22 +290,12 @@ class HomeFragment : Fragment() {
             .setQuery(query_stats, ClassStatsModel::class.java)
             .build()
 
-        setupClassStatsGraph()
-
-        classStatsAdapter = ClassStatsAdapter(options, requireActivity().intent.getStringExtra("class")!!)
-
-        classStatsRv.layoutManager = LinearLayoutManager(
-            requireContext(),
-            RecyclerView.VERTICAL,
-            false
-        )
-
-        classStatsRv.adapter = classStatsAdapter
+        setupClassStatsGraph(options)
 
         return root
     }
 
-    private fun setupClassStatsGraph() {
+    private fun setupClassStatsGraph(options : FirestoreRecyclerOptions<ClassStatsModel>) {
 
         FirebaseFirestore.getInstance()
             .collection("classes")
@@ -325,9 +315,14 @@ class HomeFragment : Fragment() {
                 entries.forEach {
                     it.setDrawValues(false)
                     it.setDrawFilled(false)
-                    it.lineWidth = 3f
-                    it.fillColor = R.color.colorAccent
-                    it.fillAlpha = R.color.colorPrimaryDark
+                    it.lineWidth = 1f
+                    val random = Color.argb(255,
+                        Random().nextInt(256),
+                        Random().nextInt(256),
+                        Random().nextInt(256)
+                    )
+                    it.color = random
+                    it.setCircleColor(random)
                     it.circleRadius = 1.5f
                 }
 
@@ -342,9 +337,10 @@ class HomeFragment : Fragment() {
                 lineChart.xAxis.textColor = Color.WHITE
                 lineChart.xAxis.labelRotationAngle = 0f
 
+                lineChart.axisRight.textColor = Color.WHITE
+                lineChart.axisLeft.textColor = Color.WHITE
                 lineChart.axisRight.isEnabled = true
                 lineChart.xAxis.axisMaximum = 53f
-
                 lineChart.axisRight.mAxisMaximum = 20f
                 lineChart.axisLeft.mAxisMaximum = 20f
 
@@ -353,10 +349,20 @@ class HomeFragment : Fragment() {
 
                 lineChart.setTouchEnabled(true)
                 lineChart.setPinchZoom(true)
-                lineChart.setNoDataText("No classes bunked yet")
+                lineChart.setNoDataText("No classes missed yet")
 
-                lineChart.animateX(1800, Easing.EaseInExpo)
+                lineChart.animateX(1800, Easing.EaseInOutBack)
             }
+
+        classStatsAdapter = ClassStatsAdapter(options, requireActivity().intent.getStringExtra("class")!!)
+
+        classStatsRv.layoutManager = LinearLayoutManager(
+            requireContext(),
+            RecyclerView.VERTICAL,
+            false
+        )
+
+        classStatsRv.adapter = classStatsAdapter
 
     }
 

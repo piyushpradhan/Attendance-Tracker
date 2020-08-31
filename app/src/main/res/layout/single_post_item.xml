@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary">
+
+    <soup.neumorphism.NeumorphCardView
+        android:id="@+id/single_post_card"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:neumorph_shadowColorLight="@color/shadowLight"
+        app:neumorph_shadowColorDark="@color/shadowDark"
+        app:neumorph_shapeType="flat"
+        app:neumorph_shapeAppearance="@style/CustomNeumorphCard">
+
+        <ImageView
+            android:id="@+id/single_post_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <soup.neumorphism.NeumorphCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            app:neumorph_backgroundColor="@color/colorPrimary"
+            app:neumorph_shadowColorLight="@color/shadowLight"
+            app:neumorph_shadowColorDark="@color/shadowDark"
+            app:neumorph_shapeAppearance="@style/CustomNeumorphLabel"
+            app:neumorph_shapeType="basin">
+
+            <TextView
+                android:id="@+id/single_post_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Label"
+                android:padding="10dp"/>
+
+        </soup.neumorphism.NeumorphCardView>
+
+    </soup.neumorphism.NeumorphCardView>
+
+
+</RelativeLayout>

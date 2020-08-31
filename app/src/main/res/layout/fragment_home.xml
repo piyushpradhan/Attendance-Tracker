@@ -99,6 +99,7 @@
             android:id="@+id/total_attendance_circular"
             android:layout_width="170dp"
             android:layout_height="170dp"
+            app:shadow="true"
             app:backgroundColor="#6F4A4A4A"
             app:layout_constraintBottom_toTopOf="@+id/skipped_classes_label"
             app:layout_constraintEnd_toEndOf="parent"
@@ -167,26 +168,38 @@
             app:layout_constraintTop_toTopOf="@+id/class_stats_heading"
             app:layout_constraintVertical_bias="0.468" />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lineChart"
+        <soup.neumorphism.NeumorphCardView
+            android:id="@+id/lineChartCard"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="290dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/class_stats_heading"
-            app:layout_constraintVertical_bias="0.044" />
+            app:layout_constraintVertical_bias="0.044"
+            app:neumorph_shadowColorLight="@color/shadowLight"
+            app:neumorph_shadowColorDark="@color/shadowDark"
+            app:neumorph_shapeType="basin"
+            app:neumorph_shapeAppearance="@style/CustomNeumorphCard">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/lineChart"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_gravity="center_vertical"/>
+
+        </soup.neumorphism.NeumorphCardView>
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/class_stats_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="30dp"
+            android:layout_marginVertical="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lineChart"
+            app:layout_constraintTop_toBottomOf="@+id/lineChartCard"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

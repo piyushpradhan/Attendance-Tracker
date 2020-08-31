@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -53,7 +54,7 @@ class HomePage : AppCompatActivity(){
     private lateinit var notificationManager: NotificationManager
     private lateinit var notificationChannel: NotificationChannel
 
-    private val FILE_NAME = "com.example.college"
+    private val FILE_NAME = "notificationCount"
     private val CLASS_CODE = "class"
     private val READ_EXTERNAL_STORAGE_CODE = 1
 
@@ -67,7 +68,6 @@ class HomePage : AppCompatActivity(){
         classCode = intent.getStringExtra("class")
 
         mStorageRef = FirebaseStorage.getInstance().reference
-
 
         sharedPreferences = this.getSharedPreferences(FILE_NAME, 0)
 
@@ -103,19 +103,24 @@ class HomePage : AppCompatActivity(){
             .document(classCode)
             .collection("notices")
             .addSnapshotListener { snapshot, error ->
-                if (snapshot != null) {
-                    snapshot.documentChanges.forEach {
-                        sendNotifications(it.document["title"].toString())
-                    }
+                if(snapshot?.documents?.size!! > sharedPreferences.getInt("notices", 0)) {
+                    val sharedPrefsEditor = sharedPreferences.edit()
+                    sharedPrefsEditor.putInt("notices", snapshot.documents.size)
+                    sharedPrefsEditor.apply()
+                    sharedPrefsEditor.commit()
+                    val title = snapshot.documents[0].data?.get("title")
+                    val desc = snapshot.documents[0].data?.get("content")
+                    sendNotifications(title.toString(), desc.toString())
                 }
             }
 
     }
 
-    private fun sendNotifications(title : String) {
+    private fun sendNotifications(title : String, desc : String) {
+
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        notificationChannel = NotificationChannel(CHANNEL_ID, "Firestore updated", NotificationManager.IMPORTANCE_HIGH)
+        notificationChannel = NotificationChannel(CHANNEL_ID, "Notice", NotificationManager.IMPORTANCE_HIGH)
         notificationChannel.enableVibration(true)
         notificationChannel.enableLights(false)
         notificationManager.createNotificationChannel(notificationChannel)
@@ -129,7 +134,7 @@ class HomePage : AppCompatActivity(){
         val notificationBuilder = Notification.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.profile)
             .setContentTitle(title)
-            .setContentText("Yep it's working just fine.")
+            .setContentText(desc)
             .setContentIntent(pendingIntent)
 
         with(NotificationManagerCompat.from(this)) {

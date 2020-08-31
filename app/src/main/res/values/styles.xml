@@ -42,4 +42,11 @@
 
     </style>
 
+    <style name="CustomNeumorphLabel">
+
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">2dp</item>
+
+    </style>
+
 </resources>

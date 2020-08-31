@@ -58,9 +58,16 @@
 
     <fragment
         android:id="@+id/nav_shared"
-        android:name="com.example.college.ui.slideshow.SlideshowFragment"
+        android:name="com.example.college.ui.shared.SharedFragement"
         android:label="Shared"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_slideshow" >
+        <action
+            android:id="@+id/action_nav_shared_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+        <action
+            android:id="@+id/action_nav_shared_to_newPostFragment"
+            app:destination="@id/newPostFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addSubject"
         android:name="com.example.college.ui.home.AddSubject"
@@ -99,5 +106,26 @@
         <argument
             android:name="notice_args"
             app:argType="com.example.college.models.NoticeModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="com.example.college.ui.shared.PostDetailFragment"
+        android:label="fragment_post_detail"
+        tools:layout="@layout/fragment_post_detail" >
+        <action
+            android:id="@+id/action_postDetailFragment_to_nav_shared"
+            app:destination="@id/nav_shared" />
+        <argument
+            android:name="postDetailArgs"
+            app:argType="com.example.college.models.PostModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/newPostFragment"
+        android:name="com.example.college.ui.shared.NewPostFragment"
+        android:label="fragment_new_post"
+        tools:layout="@layout/fragment_new_post" >
+        <action
+            android:id="@+id/action_newPostFragment_to_nav_shared"
+            app:destination="@id/nav_shared" />
     </fragment>
 </navigation>

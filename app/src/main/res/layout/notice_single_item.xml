@@ -10,15 +10,16 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <androidx.cardview.widget.CardView
+    <soup.neumorphism.NeumorphCardView
         android:id="@+id/single_notice_card"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginHorizontal="5dp"
         app:cardElevation="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@color/colorPrimary"
-        app:cardCornerRadius="12dp"
+        app:neumorph_backgroundColor="@color/colorPrimary"
+        app:neumorph_shadowColorLight="@color/shadowLight"
+        app:neumorph_shadowColorDark="@color/shadowDark"
+        app:neumorph_shapeAppearance="@style/CustomNeumorphCard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,29 +38,31 @@
             android:id="@+id/single_notice_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="10dp"
             android:maxLines="1"
             android:text="Title of the Notice"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/single_notice_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="45dp"
             android:layout_marginBottom="5dp"
             android:maxLines="1"
             android:textFontWeight="200"
             android:text="Desc of the Notice"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/single_notice_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:layout_marginTop="65dp"
             android:layout_gravity="end|bottom"
             android:layout_marginBottom="10dp"
@@ -69,6 +72,6 @@
             android:textSize="8sp" />
 
 
-    </androidx.cardview.widget.CardView>
+    </soup.neumorphism.NeumorphCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

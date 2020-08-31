@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.shared.NewPostFragment">
+
+    <ImageView
+        android:id="@+id/new_image"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_insert_photo_black_24dp" />
+
+    <EditText
+        android:id="@+id/caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:hint="Enter your caption here..."
+        android:maxLines="12"
+        android:textColorHint="#50FFFFFF"
+        android:layout_marginHorizontal="20dp"
+        android:textFontWeight="200"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="360dp"/>
+
+    <Button
+        android:id="@+id/post_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Post"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="50dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/signin_btn"/>
+
+</FrameLayout>

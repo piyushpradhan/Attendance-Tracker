@@ -33,6 +33,7 @@
             android:src="@drawable/ic_check_black_24dp"
             android:backgroundTint="@color/colorPrimary"
             android:layout_marginTop="80dp"
+            app:borderWidth="0dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal"
             android:elevation="5dp"/>
