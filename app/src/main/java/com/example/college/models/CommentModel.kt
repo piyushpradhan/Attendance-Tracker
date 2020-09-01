@@ -6,13 +6,15 @@ class CommentModel() {
     var author : String? = null
     var uid : String? = null
     var dpUrl : String? = null
+    var timestamp : Long? = null
 
 
-    constructor(mComment: String?, mAuthor : String?, muid : String?, mDpUrl : String?) : this() {
+    constructor(mComment: String?, mAuthor : String?, muid : String?, mDpUrl : String?, mTimestamp: Long?) : this() {
         this.comment = mComment
         this.author = mAuthor
         this.uid = muid
         this.dpUrl = mDpUrl
+        this.timestamp = mTimestamp
     }
 
 }

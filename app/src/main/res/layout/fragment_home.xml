@@ -16,16 +16,16 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="38dp"
-            app:neumorph_shadowColorDark="@color/shadowDark"
-            app:neumorph_shadowColorLight="@color/shadowLight"
-            android:text="05"
+            android:layout_marginStart="80dp"
+            android:text="1"
             android:textFontWeight="700"
             android:textSize="120sp"
             android:textStyle="bold"
+            app:layout_constraintRight_toLeftOf="@+id/total_attendance_circular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/total_attendance_circular"/>
+            app:neumorph_shadowColorDark="@color/shadowDark"
+            app:neumorph_shadowColorLight="@color/shadowLight" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -99,17 +99,17 @@
             android:id="@+id/total_attendance_circular"
             android:layout_width="170dp"
             android:layout_height="170dp"
-            app:shadow="true"
+            android:layout_marginEnd="32dp"
             app:backgroundColor="#6F4A4A4A"
             app:layout_constraintBottom_toTopOf="@+id/skipped_classes_label"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/date"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.372"
+            app:layout_constraintVertical_bias="0.302"
             app:progress="0"
             app:progressBarColor="@color/colorAccent"
             app:progressBarRounded="true"
-            app:progressBarThickness="15dp" />
+            app:progressBarThickness="15dp"
+            app:shadow="true" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/reduce_attendace"

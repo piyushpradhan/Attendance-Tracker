@@ -9,9 +9,9 @@
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/comment_dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/profile"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/profile_image_default"
             app:civ_border_width="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

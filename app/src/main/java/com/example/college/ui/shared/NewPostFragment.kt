@@ -76,6 +76,10 @@ class NewPostFragment : Fragment() {
 
         setImage()
 
+        image.setOnClickListener {
+            setImage()
+        }
+
         post.setOnClickListener {
             Toast.makeText(requireContext(), "Posting...", Toast.LENGTH_SHORT).show()
             postImage(selectedImageUri)
@@ -148,6 +152,7 @@ class NewPostFragment : Fragment() {
                         val downloadUrl = it.toString()
 
                         val timestamp = System.currentTimeMillis()
+                        val postId = FirebaseAuth.getInstance().currentUser?.uid.toString() + timestamp.toString()
 
                         val postModel = PostModel(
                             caption.text.toString(),
@@ -163,7 +168,7 @@ class NewPostFragment : Fragment() {
                             .collection("classes")
                             .document(requireActivity().intent.getStringExtra("class")!!)
                             .collection("posts")
-                            .document(timestamp.toString())
+                            .document(postId)
                             .set(postModel)
                             .addOnSuccessListener {
                                 view?.findNavController()?.navigate(R.id.action_newPostFragment_to_nav_shared)

@@ -21,6 +21,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class NoticeFragment : Fragment() {
 
@@ -37,6 +40,7 @@ class NoticeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val root = inflater.inflate(R.layout.fragment_notices, container, false)
 
         classCode = this.requireActivity().intent.getStringExtra("class")!!
@@ -67,8 +71,6 @@ class NoticeFragment : Fragment() {
         addNoticeButton.setOnClickListener {
             findNavController().navigate(R.id.action_nav_notice_to_addNewNotice)
         }
-
-        //listen for changes and send notifications
 
         return root
     }

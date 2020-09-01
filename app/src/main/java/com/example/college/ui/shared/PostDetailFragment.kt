@@ -1,28 +1,31 @@
 package com.example.college.ui.shared
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-
 import com.example.college.R
 import com.example.college.adapters.CommentAdapter
 import com.example.college.models.CommentModel
-import com.example.college.models.PostModel
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import kotlinx.android.synthetic.main.fragment_post_detail.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class PostDetailFragment : Fragment() {
 
@@ -34,20 +37,29 @@ class PostDetailFragment : Fragment() {
     private lateinit var postAuthor : TextView
     private lateinit var caption : TextView
     private lateinit var likes : TextView
-    private lateinit var commentRv : RecyclerView
 
     private var likesCount : Int? = 0
     private var liked : Boolean = false
 
+    private lateinit var classCode : String
+    private lateinit var postId : String
+
     private lateinit var dpUrl : String
 
     private lateinit var commentAdapter : CommentAdapter
+    private var commentList: ArrayList<CommentModel> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_post_detail, container, false)
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         //initializing
         image = view.findViewById(R.id.post_image_detail)
@@ -57,14 +69,12 @@ class PostDetailFragment : Fragment() {
         caption = view.findViewById(R.id.post_caption)
         likes = view.findViewById(R.id.likes_count)
 
-
-        commentRv = view.findViewById(R.id.comments_rv)
-        setupComments(args.postDetailArgs.timestamp.toString())
-
+        classCode = requireActivity().intent.getStringExtra("class")!!
+        postId = args.postDetailArgs.author.toString() + args.postDetailArgs.timestamp.toString()
 
         FirebaseFirestore.getInstance()
             .collection("users")
-            .document(args.postDetailArgs.author.toString())
+            .document(FirebaseAuth.getInstance().currentUser?.uid.toString())
             .addSnapshotListener { value, _ ->
                 dpUrl = value?.get("profileImage").toString()
             }
@@ -91,9 +101,9 @@ class PostDetailFragment : Fragment() {
 
                 FirebaseFirestore.getInstance()
                     .collection("classes")
-                    .document(requireActivity().intent.getStringExtra("class")!!)
+                    .document(classCode)
                     .collection("posts")
-                    .document(args.postDetailArgs.timestamp.toString())
+                    .document(postId)
                     .update("likes", likesCount)
 
 
@@ -105,23 +115,65 @@ class PostDetailFragment : Fragment() {
 
                 FirebaseFirestore.getInstance()
                     .collection("classes")
-                    .document(requireActivity().intent.getStringExtra("class")!!)
+                    .document(classCode)
                     .collection("posts")
-                    .document(args.postDetailArgs.timestamp.toString())
+                    .document(postId)
                     .update("likes", likesCount)
             }
         }
-
         commentBtn.setOnClickListener {
-            addComment(inflater)
+            addComment()
         }
 
-        return view
+        //setting up comments recycler View
+
+        setupComments(postId)
+
+        //deleting post
+
+        if(FirebaseAuth.getInstance().currentUser?.uid.toString() == args.postDetailArgs.author.toString()) {
+            delete_post.visibility = View.VISIBLE
+            delete_post.isClickable = true
+            delete_post.isEnabled = true
+        } else {
+            delete_post.visibility = View.GONE
+            delete_post.isClickable = false
+            delete_post.isEnabled = false
+        }
+
+        delete_post.setOnClickListener {
+            if(FirebaseAuth.getInstance().currentUser?.uid.toString() == args.postDetailArgs.author.toString()) {
+                val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialog_AppCompat_Dark)
+                builder.setTitle("Are you sure you want to delete this post?")
+                builder.setPositiveButton("YES") { _, _ ->
+                    FirebaseFirestore.getInstance()
+                        .collection("classes")
+                        .document(classCode)
+                        .collection("posts")
+                        .document(postId)
+                        .delete()
+                        .addOnSuccessListener {
+                            findNavController().navigate(R.id.action_postDetailFragment_to_nav_shared)
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                }
+                builder.setNeutralButton("NO") {_, _ -> }
+
+                val dialog = builder.create()
+                dialog.show()
+
+            } else {
+                Toast.makeText(requireContext(), "You don't have the permission to delete this post", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
-    private fun addComment(inflater : LayoutInflater) {
+    private fun addComment() {
         val builder = AlertDialog.Builder(requireContext())
-        val builderView = inflater.inflate(R.layout.subject_dialog, null)
+        val builderView = LayoutInflater.from(requireContext()).inflate(R.layout.subject_dialog, null)
 
         val addCommentButton : FloatingActionButton = builderView.findViewById(R.id.add_subject_button)
         val addCommentEditText : EditText = builderView.findViewById(R.id.add_subject_editText)
@@ -135,18 +187,24 @@ class PostDetailFragment : Fragment() {
 
         addCommentButton.setOnClickListener {
             if(addCommentEditText.text.toString().isNotEmpty()) {
+
+                if(dpUrl.isEmpty()) {
+                    dpUrl = "https://firebasestorage.googleapis.com/v0/b/college-795f8.appspot.com/o/profile_image_default.jpg?alt=media&token=a4a2e042-e076-4539-b155-ab2386a9b744"
+                }
+
                 val commentModel = CommentModel(
                     addCommentEditText.text.toString(),
                     args.postDetailArgs.name,
                     args.postDetailArgs.author,
-                    dpUrl
+                    dpUrl,
+                    System.currentTimeMillis()
                 )
 
                 FirebaseFirestore.getInstance()
                     .collection("classes")
-                    .document(requireActivity().intent.getStringExtra("class")!!)
+                    .document(classCode)
                     .collection("posts")
-                    .document(args.postDetailArgs.timestamp.toString())
+                    .document(postId)
                     .collection("comments")
                     .add(commentModel)
 
@@ -158,32 +216,36 @@ class PostDetailFragment : Fragment() {
 
     private fun setupComments(post : String) {
 
-        val query = FirebaseFirestore.getInstance()
-            .collection("classes")
-            .document(requireActivity().intent.getStringExtra("class")!!)
-            .collection("posts")
-            .document(post)
-            .collection("comments")
+        CoroutineScope(IO).launch {
+            FirebaseFirestore.getInstance()
+                .collection("classes")
+                .document(classCode)
+                .collection("posts")
+                .document(post)
+                .collection("comments")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .addSnapshotListener { it, error ->
+                    val list = it?.documents
 
-        val options = FirestoreRecyclerOptions.Builder<CommentModel>()
-            .setQuery(query, CommentModel::class.java)
-            .build()
+                    if(list!!.isNotEmpty()) {
+                        commentList = ArrayList()
+                        for(d in list) {
+                            val comment = d.toObject(CommentModel::class.java)
+                            commentList.add(comment!!)
+                        }
+                        commentAdapter = CommentAdapter(commentList)
 
-        commentAdapter = CommentAdapter(options)
+                        comments_rv.layoutManager = LinearLayoutManager(
+                            requireContext(),
+                            RecyclerView.VERTICAL,
+                            false
+                        )
 
-        commentRv.layoutManager = LinearLayoutManager(
-            requireContext(),
-            RecyclerView.VERTICAL,
-            false
-        )
+                        comments_rv.adapter = commentAdapter
+                        comments_rv.setHasFixedSize(true)
+                    }
+                }
+        }
 
-        commentRv.adapter = commentAdapter
-        commentRv.setHasFixedSize(true)
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        commentAdapter.startListening()
     }
 }

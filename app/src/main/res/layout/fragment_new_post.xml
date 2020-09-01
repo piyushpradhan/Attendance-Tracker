@@ -22,10 +22,11 @@
         android:hint="Enter your caption here..."
         android:maxLines="12"
         android:textColorHint="#50FFFFFF"
-        android:layout_marginHorizontal="20dp"
+        android:textColor="#FFFFFF"
+        android:layout_marginHorizontal="30dp"
         android:textFontWeight="200"
         android:background="@android:color/transparent"
-        android:layout_marginTop="360dp"/>
+        android:layout_marginTop="380dp"/>
 
     <Button
         android:id="@+id/post_button"

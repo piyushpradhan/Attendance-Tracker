@@ -62,12 +62,13 @@ class RegisterActivity : AppCompatActivity() {
             if(passwordField.text.toString() == confirmPasswordField.text.toString()) {
                 firebaseAuth.createUserWithEmailAndPassword(emailField.text.toString(), passwordField.text.toString())
                     .addOnSuccessListener {
-                        val userData = HashMap<String, String>()
+                        val userData = HashMap<String, Any>()
                         userData.put("uid", it.user!!.uid.toString())
                         userData.put("name", nameField.text.toString())
                         userData.put("email", emailField.text.toString())
                         userData.put("class", "noclass")
                         userData.put("profileImage", "")
+                        userData.put("attendance", 0)
                         Toast.makeText(applicationContext, "Hello, ${nameField.text.toString()}!", Toast.LENGTH_SHORT).show()
 
                         firestore.collection("users")

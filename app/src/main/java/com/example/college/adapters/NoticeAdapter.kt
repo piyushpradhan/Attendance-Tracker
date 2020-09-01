@@ -48,7 +48,7 @@ class NoticeAdapter(options: FirestoreRecyclerOptions<NoticeModel>) :
                 .into(holder.authorProfilePic)
         } else {
             Glide.with(holder.itemView.context)
-                .load(R.drawable.profile)
+                .load(R.drawable.profile_image_default)
                 .into(holder.authorProfilePic)
         }
 

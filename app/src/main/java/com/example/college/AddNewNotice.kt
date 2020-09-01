@@ -61,7 +61,10 @@ class AddNewNotice : Fragment() {
 
         saveNoticeButton.setOnClickListener {
 
-            if(!noticeTitle.text.toString().isEmpty() && !noticeContent.text.toString().isEmpty()) {
+            if(profileUrl == null || profileUrl!!.isEmpty())
+                profileUrl = "https://firebasestorage.googleapis.com/v0/b/college-795f8.appspot.com/o/profile_image_default.jpg?alt=media&token=a4a2e042-e076-4539-b155-ab2386a9b744"
+
+            if(noticeTitle.text.toString().isNotEmpty() && noticeContent.text.toString().isNotEmpty()) {
                 val notice = NoticeModel(noticeTitle.text.toString(), noticeContent.text.toString(), uid, profileUrl!!, System.currentTimeMillis(), displayName!!)
                 addNewNotice(notice, noticeTitle.text.toString())
                 findNavController().navigate(R.id.action_addNewNotice_to_nav_notice)

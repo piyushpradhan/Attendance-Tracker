@@ -16,6 +16,10 @@ import com.example.college.models.PostModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class SharedFragement : Fragment() {
 
@@ -48,25 +52,26 @@ class SharedFragement : Fragment() {
 
     private fun setupRecyclerView() {
 
-        val query = FirebaseFirestore.getInstance()
-            .collection("classes")
-            .document(requireActivity().intent.getStringExtra("class")!!)
-            .collection("posts")
+            val query = FirebaseFirestore.getInstance()
+                .collection("classes")
+                .document(requireActivity().intent.getStringExtra("class")!!)
+                .collection("posts")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
 
-        val options = FirestoreRecyclerOptions.Builder<PostModel>()
-            .setQuery(query, PostModel::class.java)
-            .build()
+            val options = FirestoreRecyclerOptions.Builder<PostModel>()
+                .setQuery(query, PostModel::class.java)
+                .build()
 
-        adapter = PostsAdapter(options)
+            adapter = PostsAdapter(options)
 
-        postsRecyclerView.layoutManager = LinearLayoutManager(
-            requireContext(),
-            RecyclerView.VERTICAL,
-            false
-        )
+            postsRecyclerView.layoutManager = LinearLayoutManager(
+                requireContext(),
+                RecyclerView.VERTICAL,
+                false
+            )
 
-        postsRecyclerView.adapter = adapter
-        postsRecyclerView.setHasFixedSize(true)
+            postsRecyclerView.adapter = adapter
+            postsRecyclerView.setHasFixedSize(true)
 
     }
 

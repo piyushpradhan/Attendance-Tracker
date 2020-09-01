@@ -50,10 +50,6 @@ class HomePage : AppCompatActivity(){
 
     private lateinit var mStorageRef : StorageReference
 
-    private val CHANNEL_ID = "Firestore updates"
-    private lateinit var notificationManager: NotificationManager
-    private lateinit var notificationChannel: NotificationChannel
-
     private val FILE_NAME = "notificationCount"
     private val CLASS_CODE = "class"
     private val READ_EXTERNAL_STORAGE_CODE = 1
@@ -96,51 +92,6 @@ class HomePage : AppCompatActivity(){
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        //notifications
-        FirebaseFirestore.getInstance()
-            .collection("classes")
-            .document(classCode)
-            .collection("notices")
-            .addSnapshotListener { snapshot, error ->
-                if(snapshot?.documents?.size!! > sharedPreferences.getInt("notices", 0)) {
-                    val sharedPrefsEditor = sharedPreferences.edit()
-                    sharedPrefsEditor.putInt("notices", snapshot.documents.size)
-                    sharedPrefsEditor.apply()
-                    sharedPrefsEditor.commit()
-                    val title = snapshot.documents[0].data?.get("title")
-                    val desc = snapshot.documents[0].data?.get("content")
-                    sendNotifications(title.toString(), desc.toString())
-                }
-            }
-
-    }
-
-    private fun sendNotifications(title : String, desc : String) {
-
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        notificationChannel = NotificationChannel(CHANNEL_ID, "Notice", NotificationManager.IMPORTANCE_HIGH)
-        notificationChannel.enableVibration(true)
-        notificationChannel.enableLights(false)
-        notificationManager.createNotificationChannel(notificationChannel)
-
-        val notificationIntent = Intent(this, HomePage::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
-
-        val notificationBuilder = Notification.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.profile)
-            .setContentTitle(title)
-            .setContentText(desc)
-            .setContentIntent(pendingIntent)
-
-        with(NotificationManagerCompat.from(this)) {
-            // notificationId is a unique int for each notification that you must define
-            notify(0, notificationBuilder.build())
-        }
     }
 
     private fun askForPermissionToReadExternalStorage() : Boolean {
@@ -167,7 +118,7 @@ class HomePage : AppCompatActivity(){
             .document(uid)
             .addSnapshotListener { value, error ->
                 displayName.text = value?.data!!["name"].toString()
-                email.text = value?.data!!["email"].toString()
+                email.text = value.data!!["email"].toString()
                 if(value.data!!["profileImage"].toString().isEmpty() || value.data!!["profileImage"] == null) {
                     Glide.with(this)
                         .load(R.drawable.profile_image_default)
@@ -242,17 +193,24 @@ class HomePage : AppCompatActivity(){
                     .update("class", "")
                     .addOnSuccessListener {
                         Toast.makeText(this, "Class Left", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, EnterClass::class.java)
-                        intent.putExtra("uid", uid)
-                        val editor = sharedPreferences.edit()
-                        editor.remove(CLASS_CODE)
-                        editor.apply()
-                        editor.commit()
-                        startActivity(intent)
+
+                        try{
+                            val intent = Intent(this, EnterClass::class.java)
+                            intent.putExtra("uid", uid)
+                            startActivity(intent)
+                        } catch(e : Exception) {
+                            Toast.makeText(this, e.message.toString(), Toast.LENGTH_SHORT).show()
+                        }
                     }
                     .addOnFailureListener {
                         Toast.makeText(this, it.message.toString(), Toast.LENGTH_LONG).show()
                     }
+                true
+            }
+
+            R.id.action_logout -> {
+                FirebaseAuth.getInstance().signOut()
+                startActivity(Intent(this, MainActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class EnterClass : AppCompatActivity() {
@@ -34,7 +35,7 @@ class EnterClass : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
         setContentView(R.layout.activity_enter_class)
 
-        userId = intent.getStringExtra("uid")
+        userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
         sharedPreferences = this.getSharedPreferences(FILE_NAME, 0)
 
         joinButton = findViewById(R.id.join_class_btn)
@@ -93,18 +94,26 @@ class EnterClass : AppCompatActivity() {
 
     private fun joinClass() {
         val classCode = classCodeEdittext.text.toString()
-        val editor = sharedPreferences.edit()
-        editor.putString("class", classCode)
-        editor.apply()
-        editor.commit()
-        FirebaseFirestore.getInstance()
-            .collection("users")
-            .document(userId.toString())
-            .update("class", classCode)
-        val intent = Intent(this, HomePage::class.java)
-        intent.putExtra("uid", userId)
-        intent.putExtra("class", classCode)
-        startActivity(intent)
-        finish()
+        try {
+            FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(userId.toString())
+                .update("class", classCode)
+
+
+            val intent = Intent(this, HomePage::class.java)
+            intent.putExtra("uid", userId)
+            intent.putExtra("class", classCode)
+            startActivity(intent)
+
+            val editor = sharedPreferences.edit()
+            editor.putString("class", classCode)
+            editor.apply()
+            editor.commit()
+
+            finish()
+        } catch (e : Exception) {
+            Toast.makeText(this, "Please enter a valid class code", Toast.LENGTH_SHORT).show()
+        }
     }
 }

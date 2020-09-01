@@ -96,7 +96,7 @@
     <fragment
         android:id="@+id/noticeDetail"
         android:name="com.example.college.ui.notice.NoticeDetail"
-        android:label="fragment_notice_detail"
+        android:label="Notice Detail"
         tools:layout="@layout/fragment_notice_detail" >
         <action
             android:id="@+id/action_noticeDetail_to_nav_notice"
@@ -110,7 +110,7 @@
     <fragment
         android:id="@+id/postDetailFragment"
         android:name="com.example.college.ui.shared.PostDetailFragment"
-        android:label="fragment_post_detail"
+        android:label="Shared"
         tools:layout="@layout/fragment_post_detail" >
         <action
             android:id="@+id/action_postDetailFragment_to_nav_shared"
@@ -122,7 +122,7 @@
     <fragment
         android:id="@+id/newPostFragment"
         android:name="com.example.college.ui.shared.NewPostFragment"
-        android:label="fragment_new_post"
+        android:label="New Post"
         tools:layout="@layout/fragment_new_post" >
         <action
             android:id="@+id/action_newPostFragment_to_nav_shared"

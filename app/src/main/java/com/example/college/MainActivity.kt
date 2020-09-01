@@ -62,12 +62,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUI(currentUser: FirebaseUser?, className: String?) {
-        if(currentUser != null && className == "noclass") {
+        if(currentUser != null && (className == "noclass" || className.toString().isEmpty() || className == null)) {
             val intent = Intent(this, EnterClass::class.java)
             intent.putExtra("uid", currentUser.uid)
             startActivity(intent)
             finish()
-        } else if(currentUser != null && className != "noclass") {
+        } else if(currentUser != null && (className != "noclass" || className.toString().isNotEmpty() || className != null)) {
             val intent = Intent(this, HomePage::class.java)
             intent.putExtra("uid", currentUser.uid)
             intent.putExtra("class", className)
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun signIn() {
-        if(!emailField.text.isEmpty() && !passwordField.text.isEmpty()) {
+        if(emailField.text.isNotEmpty() && passwordField.text.isNotEmpty()) {
             firebaseAuth.signInWithEmailAndPassword(emailField.text.toString(), passwordField.text.toString())
                 .addOnSuccessListener {
                     firestore.collection("users")
